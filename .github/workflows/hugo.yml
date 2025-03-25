@@ -15,7 +15,7 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: "latest-extended"
+          hugo-version: "hugo_extended_0.145.0_windows-amd64"
 
       - name: Build
         run: hugo --minify
