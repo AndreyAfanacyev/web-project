@@ -2,31 +2,31 @@ name: Deploy Hugo
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master ]  # Или main, в зависимости от вашей ветки
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest  # Важно: Linux, не Windows!
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      - name: Install Hugo 0.145.0 Extended (Linux)
+      - name: Install Hugo Extended
         run: |
           wget https://github.com/gohugoio/hugo/releases/download/v0.145.0/hugo_extended_0.145.0_Linux-64bit.tar.gz
           tar -xzf hugo_extended_*.tar.gz
           sudo mv hugo /usr/local/bin/
-          hugo version  # Проверка установки
+          hugo version
 
       - name: Build
         run: |
-		hugo --minify
-		touch public/.nojekyll
+          hugo --minify
+          touch public/.nojekyll
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
+          publish_dir: ./public  # Или ./docs, если изменили publishDir в config.toml
           force_orphan: true
